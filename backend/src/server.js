@@ -2,6 +2,7 @@ require('dotenv').config();
 const express = require('express');
 const initTable = require('./db/tables');
 const bankRoutes = require('./routes/bank.routes');
+const userRoutes = require('./routes/user.routes');
 
 const PORT = process.env.PORT || 5000;
 const app = express();
@@ -9,6 +10,7 @@ const app = express();
 app.use(express.json());
 
 app.use('/api/v1/banks', bankRoutes);
+app.use('/api/v1/banks/user', userRoutes);
 
 async function startServer() {
   try {
