@@ -1,8 +1,12 @@
 const extractYear = (dob) => {
-  // better to include safety checks here
+  const year = dob.split('-')[0];
+  if (year.length != 4 || isNaN(year)) {
+    throw new Error('Invalid Year Format');
+  }
   return dob.slice(0, 4);
 };
-export const isLegalAge = () => {
+
+export const isLegalAge = (dob) => {
   const date = new Date();
-  return date.getFullYear() - parseInt(extractYear('2006-04-07')) >= 18;
+  return date.getFullYear() - parseInt(extractYear(dob)) >= 18;
 };
