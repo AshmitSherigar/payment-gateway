@@ -15,7 +15,7 @@ const loginController = async (req, res) => {
         .json({ success: false, message: 'Missing Input Field' });
     }
 
-    const checkQuery = `SELECT * FROM users WHERE username = ?`;
+    const checkQuery = `SELECT id,username,password FROM users WHERE username = ?`;
     const [checkRows] = await pool.query(checkQuery, [username]);
 
     if (checkRows.length === 0) {
@@ -112,7 +112,7 @@ const registerController = async (req, res) => {
       { expiresIn: '1h' },
     );
 
-    return res.status(STATUS_CODES.ACCEPTED).json({
+    return res.status(STATUS_CODES.CREATED).json({
       success: true,
       message: 'User created successfully',
       userId: insertRows.insertId,
