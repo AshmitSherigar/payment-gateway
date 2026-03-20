@@ -16,7 +16,7 @@ const loginController = async (req, res) => {
     }
 
     const checkQuery = `SELECT id,username,password FROM users WHERE username = ?`;
-    const [checkRows] = await pool.query(checkQuery, [username]);
+    const [checkRows] = await pool.execute(checkQuery, [username]);
 
     if (checkRows.length === 0) {
       return res.status(STATUS_CODES.BAD_REQUEST).json({
@@ -87,7 +87,7 @@ const registerController = async (req, res) => {
     }
     // Checks for if the username or phone number existing
     const findQuery = `SELECT * FROM users WHERE username = ? OR phone_number = ?`;
-    const [findRows] = await pool.query(findQuery, [username, phone_number]);
+    const [findRows] = await pool.execute(findQuery, [username, phone_number]);
 
     if (findRows.length > 0) {
       return res
@@ -99,7 +99,7 @@ const registerController = async (req, res) => {
 
     // Insert into database
     const insertQuery = `INSERT INTO users (username,password,phone_number,DOB) VALUES (?,?,?,?)`;
-    const [insertRows] = await pool.query(insertQuery, [
+    const [insertRows] = await pool.execute(insertQuery, [
       username,
       hashedPassword,
       phone_number,
