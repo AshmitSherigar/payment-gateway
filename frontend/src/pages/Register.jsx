@@ -14,7 +14,7 @@ export default function Register() {
     setError('');
 
     try {
-      const response = await fetch('http://localhost:5000/api/register', {
+      const response = await fetch('http://localhost:5000/api/v1/banks/user/register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ username, password, phone_number: phoneNumber, dob }),
@@ -35,7 +35,7 @@ export default function Register() {
   return (
     <div>
       <h2>Open a New Account</h2>
-      
+
       {error && <p style={{ color: 'red' }}>{error}</p>}
 
       <form onSubmit={handleRegister}>
