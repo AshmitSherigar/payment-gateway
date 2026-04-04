@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 
 export default function Login() {
-  const [email, setEmail] = useState('');
+  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const navigate = useNavigate();
@@ -12,10 +12,10 @@ export default function Login() {
     setError('');
 
     try {
-      const response = await fetch('http://localhost:5000/api/login', {
+      const response = await fetch('http://localhost:5000/api/v1/banks/user/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password }),
+        body: JSON.stringify({ username, password }),
       });
 
       const data = await response.json();
@@ -25,7 +25,7 @@ export default function Login() {
       }
       //Jwt
       localStorage.setItem('bank_auth_token', data.token);
-      
+
       navigate('/dashboard');
 
     } catch (err) {
@@ -36,24 +36,24 @@ export default function Login() {
   return (
     <div>
       <h2>Sign In to Your Account</h2>
-      
+
       {error && <p style={{ color: 'red' }}>{error}</p>}
 
       <form onSubmit={handleLogin}>
         <div>
-          <label>Email: </label>
+          <label>Username: </label>
           <input 
-            type="email" 
+            type="text" 
             required
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
           />
         </div>
         <br />
         <div>
           <label>Password: </label>
-          <input 
-            type="password" 
+          <input
+            type="password"
             required
             value={password}
             onChange={(e) => setPassword(e.target.value)}

@@ -2,9 +2,10 @@ import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 
 export default function Register() {
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
+  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState('');
+  const [dob, setDob] = useState('');
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
@@ -16,7 +17,7 @@ export default function Register() {
       const response = await fetch('http://localhost:5000/api/register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, email, password }),
+        body: JSON.stringify({ username, password, phone_number: phoneNumber, dob }),
       });
 
       const data = await response.json();
@@ -39,18 +40,23 @@ export default function Register() {
 
       <form onSubmit={handleRegister}>
         <div>
-          <label>Full Name: </label>
-          <input type="text" required value={name} onChange={(e) => setName(e.target.value)} />
-        </div>
-        <br />
-        <div>
-          <label>Email: </label>
-          <input type="email" required value={email} onChange={(e) => setEmail(e.target.value)} />
+          <label>Username: </label>
+          <input type="text" required value={username} onChange={(e) => setUsername(e.target.value)} />
         </div>
         <br />
         <div>
           <label>Password: </label>
           <input type="password" required value={password} onChange={(e) => setPassword(e.target.value)} />
+        </div>
+        <br />
+        <div>
+          <label>Phone Number: </label>
+          <input type="tel" required value={phoneNumber} onChange={(e) => setPhoneNumber(e.target.value)} />
+        </div>
+        <br />
+        <div>
+          <label>Date of Birth: </label>
+          <input type="date" required value={dob} onChange={(e) => setDob(e.target.value)} />
         </div>
         <br />
         <button type="submit">Create Account</button>
