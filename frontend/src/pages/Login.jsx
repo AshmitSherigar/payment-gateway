@@ -36,7 +36,7 @@ export default function Login() {
   return (
     <div className="min-h-screen bg-[#f4f1ea] flex items-center justify-center px-3 py-4 md:p-6">
 
-      <div className="w-full max-w-6xl bg-white  overflow-hidden shadow-2xl grid grid-cols-1 md:grid-cols-2">
+      <div className="w-full max-w-6xl bg-white  rounded-[32px] overflow-hidden shadow-2xl grid grid-cols-1 md:grid-cols-2">
 
         {/* LEFT SIDE - LOGIN FORM */}
         <div className="bg-[#fafafa] flex items-center justify-center pt-8 pb-5 px-5 md:p-10">
