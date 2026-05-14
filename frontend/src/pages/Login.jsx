@@ -34,12 +34,12 @@ export default function Login() {
   };
 
   return (
-    <div className="min-h-screen bg-[#f4f1ea] flex items-center justify-center p-6">
+    <div className="min-h-screen bg-[#f4f1ea] flex items-center justify-center p-4 md:p-6">
 
       <div className="w-full max-w-6xl bg-white rounded-[32px] overflow-hidden shadow-2xl grid grid-cols-1 md:grid-cols-2">
 
         {/* LEFT SIDE - LOGIN FORM */}
-        <div className="bg-[#fafafa] flex items-center justify-center p-10">
+        <div className="bg-[#fafafa] flex items-center justify-center  p-6 md:p-10">
 
           <div className="w-full max-w-md">
 
@@ -110,11 +110,11 @@ export default function Login() {
         </div>
 
         {/* RIGHT SIDE - DESIGN SECTION */}
-        <div className="bg-[#0f172a] text-white p-12 flex flex-col justify-between">
+        <div className="bg-[#0f172a] text-white p-6 md:p-12 flex flex-col justify-between">
 
           <div>
             <h1
-              className="text-5xl font-bold tracking-tight text-[#7dd3fc]"
+              className="text-3xl md:text-5xl font-bold tracking-tight text-[#7dd3fc]"
               style={{ fontFamily: 'Space Grotesk' }}
             >
               Probably<span className="text-white">ABank</span>
