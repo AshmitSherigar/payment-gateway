@@ -38,7 +38,7 @@ export default function Register() {
       <div className="w-full max-w-6xl bg-white  overflow-hidden shadow-2xl grid grid-cols-1 md:grid-cols-2">
 
         {/* LEFT SIDE */}
-        <div className="bg-[#0f172a] text-white p-5 md:p-12 flex flex-col justify-between relative">
+        <div className="bg-[#0f172a] text-white p-5 md:p-12 flex flex-col justify-center gap-10 relative">
 
           <div>
             <h1 className="text-3xl md:text-5xl font-bold tracking-wide text-[#7dd3fc] " 
