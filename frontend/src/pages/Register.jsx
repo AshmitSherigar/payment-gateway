@@ -153,7 +153,7 @@ export default function Register() {
                   required
                   value={dob}
                   onChange={(e) => setDob(e.target.value)}
-                  className="w-full px-4 py-3 rounded-xl border border-gray-300 bg-white focus:outline-none focus:ring-2 focus:ring-black"
+                  className="w-full max-w-full px-4 py-3 rounded-xl border border-gray-300 bg-white focus:outline-none focus:ring-2 focus:ring-black"
                 />
               </div>
 
