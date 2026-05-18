@@ -1,3 +1,4 @@
+const createAccountTable = require('./account.table');
 const createBankTable = require('./bank.table');
 const createUPITable = require('./upi.table');
 const createUserTable = require('./user.table');

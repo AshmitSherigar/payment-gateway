@@ -20,9 +20,9 @@ const getAllAccountController = async (req, res) => {
       success: true,
       accounts: rows,
       message: 'Fetched the all account',
-      handler: 'GetAllAccountController',
     });
   } catch (error) {
+    console.error("getAllAccountController : " + error);
     res
       .status(STATUS_CODES.INTERNAL_SERVER_ERROR)
       .json({ success: false, error: error.message });
@@ -40,6 +40,7 @@ const getAccountByIdController = async (req, res) => {
       message: 'Fetched a single account',
     });
   } catch (error) {
+    console.error("getAccountByIdController : " + error);
     res
       .status(STATUS_CODES.INTERNAL_SERVER_ERROR)
       .json({ success: false, error: error.message });
