@@ -3,6 +3,8 @@ const express = require('express');
 const initTable = require('./db/tables');
 const bankRoutes = require('./routes/bank.routes');
 const userRoutes = require('./routes/user.routes');
+const accountRoutes = require('./routes/account.routes');
+const upiRoutes = require('./routes/upi.routes');
 
 const PORT = process.env.PORT || 5000;
 const app = express();
@@ -10,7 +12,9 @@ const app = express();
 app.use(express.json());
 
 app.use('/api/v1/banks', bankRoutes);
-app.use('/api/v1/banks/user', userRoutes);
+app.use('/api/v1/user', userRoutes);
+app.use('/api/v1/account', accountRoutes);
+app.use('/api/v1/upi', upiRoutes);
 
 async function startServer() {
   try {
