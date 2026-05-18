@@ -2,8 +2,12 @@ const STATUS_CODES = require('../constant/statusCode');
 const pool = require('../db/connection');
 
 const makeTransactionController = async (req, res) => {
+  // Missing Validation
   const connection = await pool.getConnection();
   const { senderUpiHandle, receiverUpiHandle, amount } = req.body;
+
+  let senderAccountId;
+  let receiverAccountId;
 
   // Getting the account id
   try {
@@ -13,13 +17,10 @@ const makeTransactionController = async (req, res) => {
         FROM Upi
         WHERE upi_handle = ? OR upi_handle = ?
         `;
-      const [rows] = await pool.query(query, [
+      const [rows] = await connection.query(query, [
         senderUpiHandle,
         receiverUpiHandle,
       ]);
-
-      let senderAccountId;
-      let receiverAccountId;
 
       for (const row of rows) {
         if (row.upi_handle === senderUpiHandle) {
@@ -31,7 +32,7 @@ const makeTransactionController = async (req, res) => {
       }
     } catch (error) {
       console.error(error);
-      res.status(STATUS_CODES.BAD_REQUEST).json({
+      return res.status(STATUS_CODES.BAD_REQUEST).json({
         success: false,
         message: 'Sender UPI Id or Reciever UPI Id is invalid or missing',
       });
@@ -39,15 +40,36 @@ const makeTransactionController = async (req, res) => {
     await connection.query('START TRANSACTION');
     // deduct money
     await connection.execute(
-      'UPDATE Upi SET balance = balance - ? WHERE upi_handle = ?',
-      [amount, senderUpiHandle],
+      'UPDATE Accounts SET balance = balance - ? WHERE accountId = ?',
+      [amount, senderAccountId],
     );
-    // add money
+
     await connection.execute(
-      'UPDATE Upi SET balance = balance - ? WHERE upi_handle = ?',
-      [amount, receiverUpiHandle],
+      'UPDATE Accounts SET balance = balance + ? WHERE accountId = ?',
+      [amount, receiverAccountId],
     );
+
+    const [transactionRows] = await connection.execute(
+      `
+    INSERT INTO Transactions 
+    (senderId, receiverId, amount, STATUS)
+    VALUES (?, ?, ?, ?)
+  `,
+      [senderAccountId, receiverAccountId, amount, 'success'],
+    );
+
+    const transactionId = transactionRows.insertId;
+
+    const query = `
+        INSERT INTO TransactionLog (transactionId, message)
+        VALUES (? , ?);
+        `;
+    const [logRows] = await connection.query(query, [
+      transactionId,
+      'Successful',
+    ]);
     await connection.query('COMMIT');
+
     return res.status(STATUS_CODES.OK).json({
       success: true,
       message: 'Payment Successfully transfered',
@@ -55,6 +77,22 @@ const makeTransactionController = async (req, res) => {
   } catch (error) {
     console.error(error);
     await connection.query('ROLLBACK');
+    const [transactionRows] = await connection.execute(
+      `
+    INSERT INTO Transactions 
+    (senderId, receiverId, amount, STATUS)
+    VALUES (?, ?, ?, ?)
+  `,
+      [senderAccountId, receiverAccountId, amount, 'failed'],
+    );
+
+    const transactionId = transactionRows.insertId;
+
+    const query = `
+        INSERT INTO TransactionLog (transactionId, message)
+        VALUES (? , ?);
+        `;
+    const [logRows] = await connection.query(query, [transactionId, 'failed']);
     return res
       .status(STATUS_CODES.INTERNAL_SERVER_ERROR)
       .json({ success: false, message: 'Internal Server Error' });

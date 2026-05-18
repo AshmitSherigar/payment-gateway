@@ -10,8 +10,8 @@ async function createTransactionsTable() {
             STATUS ENUM('success','failed') DEFAULT 'success',
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
             updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-            FOREIGN KEY (senderId) REFERENCES Upi(upiId) ON DELETE CASCADE,
-            FOREIGN KEY (receiverId) REFERENCES Upi(upiId) ON DELETE CASCADE
+            FOREIGN KEY (senderId) REFERENCES Accounts(accountId) ON DELETE CASCADE,
+            FOREIGN KEY (receiverId) REFERENCES Accounts(accountId) ON DELETE CASCADE
         )
     `;
   await pool.query(query);
