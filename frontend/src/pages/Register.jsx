@@ -55,8 +55,8 @@ export default function Register() {
               Probably<span className="text-white">ABank</span>
             </h1>
 
-            <div className="mt-20 space-y-3">
-              <h2 className="text-4xl font-bold leading-tight text-gray-300">
+            <div className="mt-8 md:mt-20 space-y-3">
+              <h2 className="text-3xl md:text-4xl font-bold leading-tight text-gray-300">
                 Payments.
                 <br />
                 Banking.
@@ -64,14 +64,14 @@ export default function Register() {
                 Everything.
               </h2>
 
-              <p className="mt-6 text-gray-300 text-lg">
+              <p className="mt-6 text-gray-300 text-base md:text-lg">
                 If it involves money, we do it.
               </p>
             </div>
           </div>
 
-          <div className="bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/10 mt-10">
-            <p className="text-lg leading-8 text-gray-200">
+          <div className="bg-white/10 backdrop-blur-md rounded-2xl p-5 md:p-6 border border-white/10 mt-10">
+            <p className="text-base md:text-lg leading-7 md:leading-8 text-gray-200">
               Manage payments, transfers, UPI services, and banking
               operations all from one secure platform.
             </p>

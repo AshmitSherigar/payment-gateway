@@ -103,14 +103,14 @@ export default function Login() {
         <div className="bg-[#0f172a] text-white p-12 flex flex-col justify-between">
           <div>
             <h1
-              className="text-5xl font-bold tracking-tight text-[#7dd3fc]"
+              className="text-3xl md:text-5xl font-bold tracking-tight text-[#7dd3fc]"
               style={{ fontFamily: 'Space Grotesk' }}
             >
               Probably<span className="text-white">ABank</span>
             </h1>
 
-            <div className="mt-20">
-              <h2 className="text-5xl font-bold leading-tight text-gray-100">
+            <div className="mt-8 md:mt-20">
+              <h2 className="text-3xl md:text-5xl font-bold leading-tight text-gray-100">
                 Welcome
                 <br />
                 Back.
