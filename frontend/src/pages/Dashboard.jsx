@@ -9,40 +9,10 @@ export default function Dashboard() {
 
   const [showBankModal, setShowBankModal] = useState(false);
   const [availableBanks, setAvailableBanks] = useState([]);
+  const [transactions, setTransactions] = useState([]);
 
   const navigate = useNavigate();
   const token = localStorage.getItem('bank_auth_token');
-
-  const dummyTransactions = [
-    {
-      id: 101,
-      date: '2026-05-10',
-      desc: 'Supermart',
-      type: 'Debit',
-      amount: 1200,
-    },
-    {
-      id: 102,
-      date: '2026-05-09',
-      desc: 'Salary Credit',
-      type: 'Credit',
-      amount: 45000,
-    },
-    {
-      id: 103,
-      date: '2026-05-08',
-      desc: 'Electricity Bill',
-      type: 'Debit',
-      amount: 3400,
-    },
-    {
-      id: 104,
-      date: '2026-05-07',
-      desc: 'Netflix',
-      type: 'Debit',
-      amount: 499,
-    },
-  ];
 
   useEffect(() => {
     if (!token) {
@@ -102,6 +72,33 @@ export default function Dashboard() {
     fetchMyBanks();
     fetchAvailableBanks();
   }, [token, navigate]);
+
+  const fetchTransactions = async (accountId) => {
+  try {
+    const response = await fetch(
+      `http://localhost:5000/api/v1/transactions/${accountId}`,
+      {
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(
+        data.message || 'Failed to fetch transactions'
+      );
+    }
+
+    setTransactions(data.transactions || []);
+  } catch (err) {
+    console.log(err);
+    setTransactions([]);
+  }
+};
 
   const handleLogout = () => {
     localStorage.removeItem('bank_auth_token');
@@ -286,7 +283,10 @@ export default function Dashboard() {
             {linkedBanks.map((bank) => (
               <div
                 key={bank.id}
-                onClick={() => setSelectedBank(bank)}
+                onClick={() => {
+                  fetchTransactions(bank.accountId);
+                  setSelectedBank(bank);
+                }}
                 className={`rounded-[30px] p-8 cursor-pointer transition-all duration-300 hover:scale-[1.02] shadow-xl ${
                   selectedBank?.id === bank.id
                     ? 'bg-[#2563eb] text-white'
@@ -420,54 +420,66 @@ export default function Dashboard() {
 
                 <div className="space-y-4">
 
-                  {dummyTransactions.map((tx) => (
-                    <div
-                      key={tx.id}
-                      className="flex items-center justify-between p-5 rounded-2xl hover:bg-gray-50 transition"
-                    >
+  {transactions.length === 0 ? (
 
-                      <div className="flex items-center gap-4">
+    <div className="text-center py-10">
+      <p className="text-gray-500 text-lg">
+        No transactions available
+      </p>
+    </div>
 
-                        <div
-                          className={`w-12 h-12 rounded-2xl flex items-center justify-center text-xl ${
-                            tx.type === 'Credit'
-                              ? 'bg-green-100'
-                              : 'bg-red-100'
-                          }`}
-                        >
-                          {tx.type === 'Credit'
-                            ? '↗'
-                            : '↙'}
-                        </div>
+  ) : (
 
-                        <div>
+    transactions.map((tx) => (
+      <div
+        key={tx.id}
+        className="flex items-center justify-between p-5 rounded-2xl hover:bg-gray-50 transition"
+      >
 
-                          <h4 className="font-semibold text-lg">
-                            {tx.desc}
-                          </h4>
+        <div className="flex items-center gap-4">
 
-                          <p className="text-gray-500 text-sm mt-1">
-                            {tx.date}
-                          </p>
+          <div
+            className={`w-12 h-12 rounded-2xl flex items-center justify-center text-xl ${
+              tx.type === 'Credit'
+                ? 'bg-green-100'
+                : 'bg-red-100'
+            }`}
+          >
+            {tx.type === 'Credit'
+              ? '↗'
+              : '↙'}
+          </div>
 
-                        </div>
-                      </div>
+          <div>
 
-                      <h3
-                        className={`text-xl font-bold ${
-                          tx.type === 'Credit'
-                            ? 'text-green-600'
-                            : 'text-red-500'
-                        }`}
-                      >
-                        {tx.type === 'Credit'
-                          ? '+'
-                          : '-'}
-                        ₹{tx.amount}
-                      </h3>
-                    </div>
-                  ))}
-                </div>
+            <h4 className="font-semibold text-lg">
+              {tx.desc}
+            </h4>
+
+            <p className="text-gray-500 text-sm mt-1">
+              {tx.date}
+            </p>
+
+          </div>
+        </div>
+
+        <h3
+          className={`text-xl font-bold ${
+            tx.type === 'Credit'
+              ? 'text-green-600'
+              : 'text-red-500'
+          }`}
+        >
+          {tx.type === 'Credit'
+            ? '+'
+            : '-'}
+          ₹{tx.amount}
+        </h3>
+      </div>
+    ))
+
+  )}
+</div>
               </div>
             </div>
 
