@@ -6,7 +6,7 @@ const getLedgerController = (req, res) => {
     const [rows] = await pool.execute(query, [accountId]);
     res
       .status(STATUS_CODES.OK)
-      .json({ success: true, ledger: rows[0], message: 'Fetched Ledger Successfully' });
+      .json({ success: true, ledger: rows, message: 'Fetched Ledger Successfully' });
   } catch (error) {
     res
       .status(STATUS_CODES.INTERNAL_SERVER_ERROR)
