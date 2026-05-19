@@ -54,11 +54,21 @@ const makeTransactionController = async (req, res) => {
     INSERT INTO Transactions 
     (senderId, receiverId, amount, STATUS)
     VALUES (?, ?, ?, ?)
-  `,
+    `,
       [senderAccountId, receiverAccountId, amount, 'success'],
     );
 
     const transactionId = transactionRows.insertId;
+
+    // Save receiver as beneficiary
+    await connection.execute(
+      `
+    INSERT IGNORE INTO Beneficiary
+    (userId, upiId)
+    VALUES (?, ?)
+    `,
+      [senderUserId, receiverUpiId],
+    );
 
     const query = `
         INSERT INTO TransactionLog (transactionId, message)

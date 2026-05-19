@@ -7,6 +7,7 @@ const userRoutes = require('./routes/user.routes');
 const accountRoutes = require('./routes/account.routes');
 const upiRoutes = require('./routes/upi.routes');
 const transactionRoutes = require('./routes/transaction.routes');
+const beneficiaryRoutes = require('./routes/beneficiary.routes');
 
 const PORT = process.env.PORT || 5000;
 const app = express();
@@ -19,6 +20,7 @@ app.use('/api/v1/user', userRoutes);
 app.use('/api/v1/account', accountRoutes);
 app.use('/api/v1/upi', upiRoutes);
 app.use('/api/v1/transaction', transactionRoutes);
+app.use('/api/v1/beneficiary', beneficiaryRoutes);
 
 async function startServer() {
   try {

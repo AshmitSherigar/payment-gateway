@@ -29,7 +29,12 @@ export default function Register() {
       const response = await fetch(`${API_BASE_URL}/api/v1/user/register`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username, password, phone_number: phoneNumber, dob }),
+        body: JSON.stringify({
+          username,
+          password,
+          phone_number: phoneNumber,
+          dob,
+        }),
       });
 
       const data = await response.json();
@@ -38,7 +43,7 @@ export default function Register() {
 
       localStorage.setItem('bank_auth_token', data.accessToken || data.token);
       localStorage.setItem('bank_username', username);
-      navigate('/dashboard');
+      navigate('/home');
     } catch (err) {
       setError(err.message);
     }
@@ -50,7 +55,8 @@ export default function Register() {
         {/* LEFT SIDE */}
         <div className="bg-[#0f172a] text-white p-5 md:p-12 flex flex-col justify-center gap-10 relative">
           <div>
-            <h1 className="text-3xl md:text-5xl font-bold tracking-wide text-[#7dd3fc]" 
+            <h1
+              className="text-3xl md:text-5xl font-bold tracking-wide text-[#7dd3fc]"
               style={{ fontFamily: 'Space Grotesk' }}
             >
               Probably<span className="text-white">ABank</span>
@@ -73,7 +79,8 @@ export default function Register() {
 
           <div className="bg-white/10 backdrop-blur-md rounded-2xl p-5 md:p-6 border border-white/10 mt-10">
             <p className="text-base md:text-lg leading-7 md:leading-8 text-gray-200">
-              Link any bank account and send money to anyone in seconds. No hassle, no hidden fees.
+              Link any bank account and send money to anyone in seconds. No
+              hassle, no hidden fees.
             </p>
 
             <div className="mt-6">
@@ -127,7 +134,8 @@ export default function Register() {
                   className="w-full px-4 py-3 rounded-xl border border-gray-300 bg-white focus:outline-none focus:ring-2 focus:ring-black font-medium text-gray-800"
                 />
                 <span className="text-[11px] text-gray-400 mt-1.5 block">
-                  Must be at least 8 characters, containing at least one letter and one number.
+                  Must be at least 8 characters, containing at least one letter
+                  and one number.
                 </span>
               </div>
 
